@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "audioconcat": "^0.1.4",
+    "aws-sdk": "^2.1199.0",
+    "pdf-text-extract": "^1.5.0"
+  }
+}
