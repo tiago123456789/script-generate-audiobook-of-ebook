@@ -94,8 +94,8 @@ const concatAudiosToOnlyAudio = async (pathWhereFindAudios, finalFile) => {
 }
 
 const generateAudioBook = async () => {
-    await readPdfTransformAudio("./data-structure-in-javascript.pdf")
-    await concatAudiosToOnlyAudio("./audios", "./data-structure-ebook.mp3")
+    await readPdfTransformAudio("./path_pdf_transform_audio_book.pdf")
+    await concatAudiosToOnlyAudio("./audios", "./path_name_audiobook_generated.mp3")
 }
 
 generateAudioBook()
