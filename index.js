@@ -3,6 +3,7 @@ var extract = require('pdf-text-extract')
 var audioconcat = require('audioconcat')
 
 const AWS = require('aws-sdk')
+// profile => default
 const Polly = new AWS.Polly({
     signatureVersion: 'v4',
     region: 'us-east-1'
@@ -31,13 +32,13 @@ const readPdfTransformAudio = (filePath) => {
             let promisesTransferTexToAudio = []
             let book = pages.join("");
             let totalLetters = book.length
-            for (let index = 0; index < totalLetters; index += 1500) {
-                const text = (book.substr(index, 1500))
+            for (let index = 0; index < totalLetters; index += 3000) {
+                const text = (book.substr(index, 3000))
                 promisesTransferTexToAudio.push(
                     transformTextToAudioFile(text, totalAudio)
                 );
                 totalAudio += 1
-                if (promisesTransferTexToAudio.length == 10) {
+                if (promisesTransferTexToAudio.length == 30) {
                     await Promise.all(promisesTransferTexToAudio)
                     promisesTransferTexToAudio = []
                 }
@@ -94,8 +95,14 @@ const concatAudiosToOnlyAudio = async (pathWhereFindAudios, finalFile) => {
 }
 
 const generateAudioBook = async () => {
-    await readPdfTransformAudio("./path_pdf_transform_audio_book.pdf")
-    await concatAudiosToOnlyAudio("./audios", "./path_name_audiobook_generated.mp3")
+    console.time("generation_audiobook")
+    console.log("Starting extracting text in ebook")
+    await readPdfTransformAudio("./ebook.pdf")
+    console.log("Finished extracting text in ebook")
+    console.log("Starting generation audiobook")
+    await concatAudiosToOnlyAudio("./audios", "./audiobook.mp3")
+    console.log("Finish generation audiobook")
+    console.timeEnd("generation_audiobook")
 }
 
 generateAudioBook()
